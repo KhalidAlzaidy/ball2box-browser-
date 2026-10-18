@@ -1,1 +1,0 @@
-- fix always yellow ball bug on reset or level change 

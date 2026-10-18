@@ -1,1 +1,0 @@
-- fix star position in shop

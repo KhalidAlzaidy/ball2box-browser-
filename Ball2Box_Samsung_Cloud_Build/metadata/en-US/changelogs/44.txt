@@ -1,2 +1,0 @@
-- fix crash on open
-- fix stars double fade out

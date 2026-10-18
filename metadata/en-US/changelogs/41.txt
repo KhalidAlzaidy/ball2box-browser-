@@ -1,2 +1,0 @@
- - star can't be hit when ball is resetting 
- - fix translations
