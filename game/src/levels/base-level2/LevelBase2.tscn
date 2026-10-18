@@ -1,0 +1,155 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://src/actors/ball/starter-ball/Ball.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/levels/base-level/LevelBase.gd" type="Script" id=2]
+[ext_resource path="res://src/actors/bin/Bin.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/levels/base-level/base-3d/Base3D.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/actors/star/Star.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/levels/base-level/background/Background2.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/screens/shop/Shop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/ui/tutorial/Tutorial.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/actors/portal/Portal.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/screens/main/Main.tscn" type="PackedScene" id=10]
+[ext_resource path="res://src/actors/portal/PortalConnector.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/screens/level-complete/LevelComplete.tscn" type="PackedScene" id=12]
+[ext_resource path="res://src/ui/coins/Coins.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/pause.png" type="Texture" id=15]
+
+[sub_resource type="Animation" id=1]
+resource_name = "FadeIn"
+length = 0.8
+
+[sub_resource type="Animation" id=2]
+length = 0.4
+
+[sub_resource type="Animation" id=3]
+length = 0.4
+
+[sub_resource type="Animation" id=20]
+resource_name = "Idle"
+length = 0.8
+
+[sub_resource type="Animation" id=18]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Topbar:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "TopbarFadeIn"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Topbar:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="PhysicsMaterial" id=15]
+friction = 0.5
+bounce = 0.9
+
+[node name="LevelBase2" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+pause_mode = 2
+anims/FadeIn = SubResource( 1 )
+anims/GoToMenu = SubResource( 2 )
+anims/GoToShop = SubResource( 3 )
+anims/Idle = SubResource( 20 )
+anims/RESET = SubResource( 18 )
+anims/TopbarFadeIn = SubResource( 19 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Ball" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.94765, 19.8625, 0 )
+physics_material_override = SubResource( 15 )
+contacts_reported = 0
+contact_monitor = false
+
+[node name="Bin" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.90741, 0, 0 )
+
+[node name="Star1" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.18212, 19.6921, -1.21101 )
+
+[node name="Star2" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.06394, 9.04416, 0.575264 )
+
+[node name="Tutorial" parent="." instance=ExtResource( 8 )]
+
+[node name="Portals" type="Spatial" parent="."]
+
+[node name="PortalConnector" parent="Portals" instance=ExtResource( 11 )]
+portalPath1 = NodePath("../Portal1")
+portalPath2 = NodePath("../Portal2")
+
+[node name="Portal1" parent="Portals" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.06621, 12.9481, 0 )
+
+[node name="Portal2" parent="Portals" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.45685, 2.5986, 0 )
+
+[node name="UI" type="Node" parent="."]
+
+[node name="Shop" parent="UI" instance=ExtResource( 7 )]
+
+[node name="Menu" parent="UI" instance=ExtResource( 10 )]
+
+[node name="LevelComplete" parent="UI" instance=ExtResource( 12 )]
+
+[node name="Topbar" type="Control" parent="."]
+margin_left = 108.702
+margin_top = -4.0869
+margin_right = 148.702
+margin_bottom = 35.9131
+
+[node name="Coins" parent="Topbar" instance=ExtResource( 13 )]
+margin_left = -165.03
+margin_top = -6.74166
+margin_right = 118.97
+margin_bottom = 71.2583
+
+[node name="Pause" type="Button" parent="Topbar"]
+pause_mode = 2
+modulate = Color( 1, 1, 1, 0.705882 )
+margin_left = 490.298
+margin_top = 32.0869
+margin_right = 594.298
+margin_bottom = 158.087
+rect_scale = Vector2( 0.9, 0.9 )
+icon = ExtResource( 15 )
+icon_align = 1
+
+[node name="Base" parent="." instance=ExtResource( 4 )]
+
+[node name="Background" parent="." instance=ExtResource( 6 )]
+
+[connection signal="reset" from="Ball" to="." method="_on_Ball_reset"]
+[connection signal="shoot" from="Ball" to="." method="_on_Ball_shoot"]
+[connection signal="win" from="Bin" to="." method="_on_Bin_win"]
+[connection signal="back" from="UI/Shop" to="." method="_on_Shop_back"]
+[connection signal="next" from="UI/Shop" to="." method="_on_Shop_next"]
+[connection signal="prev" from="UI/Shop" to="." method="_on_Shop_prev"]
+[connection signal="select" from="UI/Shop" to="." method="_on_Shop_select"]
+[connection signal="levels" from="UI/LevelComplete" to="." method="_on_LevelComplete_levels"]
+[connection signal="menu" from="UI/LevelComplete" to="." method="_on_LevelComplete_menu"]
+[connection signal="replay" from="UI/LevelComplete" to="." method="_on_LevelComplete_replay"]
+[connection signal="pressed" from="Topbar/Pause" to="." method="_on_Pause_pressed"]

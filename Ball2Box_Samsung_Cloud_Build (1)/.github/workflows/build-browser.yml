@@ -1,0 +1,26 @@
+name: Build Ball2Box Browser Game
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare HTML5 export
+        run: |
+          cp game/export_presets.html.example game/export_presets.cfg
+          mkdir -p html5
+      - name: Export using Godot 3.6
+        uses: dulvui/godot-html-export@v1
+        with:
+          working-directory: game
+          godot-version: 3.6
+          create-export-preset-cfg: false
+      - name: Upload browser game
+        uses: actions/upload-artifact@v4
+        with:
+          name: ball2box-browser-game
+          path: html5/
+          if-no-files-found: error

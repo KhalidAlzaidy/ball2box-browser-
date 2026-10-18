@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.simondalvai.ball2box</id>
+  <name>Ball2Box</name>
+  <developer_name>Simon Dalvai</developer_name>
+  <launchable type="desktop-id">org.simondalvai.ball2box.desktop</launchable>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <metadata_license>CC0-1.0</metadata_license>
+  <summary>Shoot the ball into the red box</summary>
+  <url type="homepage">https://simondalvai.org/games/ball2box</url>
+  <url type="bugtracker">https://codeberg.org/dulvui/ball2box/issues</url>
+  <url type="donation">https://simondalvai.org/donate</url>
+  <url type="vcs-browser">https://codeberg.org/dulvui/ball2box</url>
+  <description>
+    <p>Can you get all three stars on all levels?
+    </p>
+    <ul>
+      <li>120+ levels and more coming soon...</li>
+      <li>20+ different styled balls to collect</li>
+      <li>Privacy friendly</li>
+      <li>Offline game</li>
+      <li>Created with Godot Engine 3</li>
+    </ul>
+  </description>
+  <branding>
+    <color type="primary" scheme_preference="light">#fdf6e3</color>
+    <color type="primary" scheme_preference="dark">#002b36</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-1.png
+      </image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-2.png
+      </image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-3.png
+      </image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-4.png
+      </image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-5.png
+      </image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-6.png
+      </image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-7.png
+      </image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://codeberg.org/dulvui/ball2box/src/commit/db850c47a51630b1e287fd992044ecca45acbcc2/metadata/en-US/images/phoneScreenshots/Android-8.png
+      </image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="4.1.6" date="2024-12-30">
+      <description>
+        <ul>
+          <li>fix fade in of pop objects</li>
+          <li>level 113: move rotator for more space</li>
+          <li>level 114: more resizing circle for more space</li>
+        </ul>
+      </description>
+      <url>https://github.com/dulvui/ball2box/releases/tag/v4.1.5</url>
+    </release>
+    <release version="4.1.5" date="2024-10-13">
+      <description>
+        <ul>
+          <li>reduce pick ball radius, to unify ball sizes</li>
+        </ul>
+      </description>
+      <url>https://github.com/dulvui/ball2box/releases/tag/v4.1.5</url>
+    </release>
+    <release version="4.1.4" date="2024-10-12">
+      <description>
+        <ul>
+          <li>fix z-fighting for level 65 and 67</li>
+          <li>update to Godot 3.6</li>
+          <li>fix menu alignment</li>
+        </ul>
+      </description>
+      <url>https://github.com/dulvui/ball2box/releases/tag/v4.1.4</url>
+    </release>
+    <release version="4.1.2" date="2024-08-12">
+      <description>
+        <ul>
+          <li>fix always yellow ball bug on reset or level change</li>
+          <li>load correct level when using level selector screen</li>
+        </ul>
+      </description>
+      <url>https://github.com/dulvui/ball2box/releases/tag/v4.1.2</url>
+    </release>
+  </releases>
+</component>
