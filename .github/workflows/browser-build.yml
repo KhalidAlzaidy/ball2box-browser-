@@ -1,18 +1,16 @@
 name: Ball2Box browser test build
-
 on:
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   export:
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:3.6.2
     steps:
-            - name: Import resources
+      - uses: actions/checkout@v4
+      - name: Import resources
         timeout-minutes: 5
         run: |
           cd game
