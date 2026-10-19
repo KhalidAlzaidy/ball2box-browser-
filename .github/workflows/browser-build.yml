@@ -19,18 +19,12 @@ jobs:
           apt-get update
           apt-get install -y xvfb
 
-      - name: Import resources
-        timeout-minutes: 5
-        run: |
-          cd game
-          timeout 240s xvfb-run -a godot --editor --quit
-
       - name: Export HTML5
         timeout-minutes: 5
         run: |
           mkdir -p web
           cd game
-          xvfb-run -a godot --export "HTML5" ../web/index.html
+          timeout 240s xvfb-run -a godot --export "HTML5" ../web/index.html
 
       - name: Upload browser test artifact
         uses: actions/upload-artifact@v4
