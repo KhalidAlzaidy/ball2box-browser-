@@ -1,0 +1,30 @@
+name: Ball2Box browser test build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:3.5.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import resources
+        run: |
+          cd game
+          godot --no-window --editor --quit
+      - name: Export HTML5
+        run: |
+          mkdir -p web
+          cd game
+          godot --no-window --export "HTML5" ../web/index.html
+      - name: Upload browser test artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ball2box-html5-test
+          path: web/
+          if-no-files-found: error
