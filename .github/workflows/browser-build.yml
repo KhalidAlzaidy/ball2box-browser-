@@ -12,11 +12,11 @@ jobs:
     container:
       image: barichello/godot-ci:3.6.2
     steps:
-      - uses: actions/checkout@v4
-      - name: Import resources
+            - name: Import resources
+        timeout-minutes: 5
         run: |
           cd game
-          godot --no-window --editor --quit
+          timeout 240s godot --no-window --editor --quit
       - name: Export HTML5
         run: |
           mkdir -p web
