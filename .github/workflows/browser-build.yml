@@ -1,3 +1,4 @@
+
 name: Ball2Box browser test build
 
 on:
@@ -9,37 +10,60 @@ permissions:
 jobs:
   export:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     container:
       image: barichello/godot-ci:3.6.2
+
     steps:
       - uses: actions/checkout@v4
 
-      
+      - name: Install dependencies
+        run: |
+          set -eu
+          apt-get update
+          apt-get install -y python3 ca-certificates wget xvfb
+
       - name: Install HTML5 export templates
         run: |
-          apt-get update
-          apt-get install -y python3 ca-certificates wget
+          set -eu
           mkdir -p /root/.local/share/godot/templates/3.6.2.stable
           wget -q https://github.com/godotengine/godot/releases/download/3.6.2-stable/Godot_v3.6.2-stable_export_templates.tpz -O /tmp/templates.tpz
           python3 -c "import zipfile; z=zipfile.ZipFile('/tmp/templates.tpz'); z.extract('templates/webassembly_debug.zip', '/tmp'); z.extract('templates/webassembly_release.zip', '/tmp')"
           cp /tmp/templates/webassembly_*.zip /root/.local/share/godot/templates/3.6.2.stable/
+          test -s /root/.local/share/godot/templates/3.6.2.stable/webassembly_release.zip
 
-
-      - name: Install virtual display
+      - name: Check Godot import support
         run: |
-          apt-get update
-          apt-get install -y xvfb
+          godot --version
+          godot --help > /tmp/godot-help.txt
+          if ! grep -q -- '--import' /tmp/godot-help.txt; then
+            echo "This Godot executable does not support --import."
+            echo "Stopping before another long-running attempt."
+            exit 1
+          fi
+
       - name: Import game resources
-        timeout-minutes: 5
+        timeout-minutes: 6
         run: |
+          set -eu
           cd game
-          timeout 240s xvfb-run -a godot --editor --quit
-      - name: Export HTML5
-        timeout-minutes: 5
+          timeout 300s xvfb-run -a godot --import
+
+      - name: Verify imported football mesh
         run: |
+          set -eu
+          cd game
+          test -s .import/Football.blend.obj-e161dc2ac3731bc92089df852e4207eb.mesh
+          echo "Football mesh imported successfully."
+
+      - name: Export HTML5
+        timeout-minutes: 4
+        run: |
+          set -eu
           mkdir -p web
           cd game
-          timeout 240s xvfb-run -a godot --export "HTML5" ../web/index.html
+          timeout 180s xvfb-run -a godot --export "HTML5" ../web/index.html
+          test -s ../web/index.html
 
       - name: Upload browser test artifact
         uses: actions/upload-artifact@v4
