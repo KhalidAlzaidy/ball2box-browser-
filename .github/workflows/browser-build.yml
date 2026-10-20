@@ -29,7 +29,11 @@ jobs:
         run: |
           apt-get update
           apt-get install -y xvfb
-
+      - name: Import game resources
+        timeout-minutes: 5
+        run: |
+          cd game
+          timeout 240s xvfb-run -a godot --editor --quit
       - name: Export HTML5
         timeout-minutes: 5
         run: |
