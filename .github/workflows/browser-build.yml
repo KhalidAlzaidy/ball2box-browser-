@@ -47,7 +47,7 @@ jobs:
           set +e
           timeout 90s xvfb-run -a godot \
             --path . \
-            --video-driver GLES2 \
+            --video-driver Dummy \
             --editor \
             --quit \
             --verbose > ../godot-diagnostic.log 2>&1
