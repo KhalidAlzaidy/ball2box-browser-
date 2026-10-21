@@ -32,42 +32,44 @@ jobs:
           cp /tmp/templates/webassembly_*.zip /root/.local/share/godot/templates/3.6.2.stable/
           test -s /root/.local/share/godot/templates/3.6.2.stable/webassembly_release.zip
 
-      - name: Check Godot import support
+      
+      - name: Diagnose Godot resource import
+        timeout-minutes: 3
+        shell: bash
         run: |
-          godot --version
-          godot --help > /tmp/godot-help.txt
-          if ! grep -q -- '--import' /tmp/godot-help.txt; then
-            echo "This Godot executable does not support --import."
-            echo "Stopping before another long-running attempt."
-            exit 1
+          set -o pipefail
+          cd game
+
+          echo "Checking original football model..."
+          test -s assets/obj/Football.blend.obj || exit 1
+
+          echo "Starting Godot with GLES2..."
+          set +e
+          timeout 90s xvfb-run -a godot \
+            --path . \
+            --video-driver GLES2 \
+            --editor \
+            --quit \
+            --verbose > ../godot-diagnostic.log 2>&1
+          result=$?
+          set -e
+
+          echo "Godot exit code: $result"
+          echo "Last 60 log lines:"
+          tail -n 60 ../godot-diagnostic.log
+
+          echo "Imported football mesh:"
+          find .import -name 'Football.blend.obj*.mesh' \
+            -print 2>/dev/null || true
+
+          if [ "$result" -ne 0 ]; then
+            exit "$result"
           fi
 
-      - name: Import game resources
-        timeout-minutes: 6
-        run: |
-          set -eu
-          cd game
-          timeout 300s xvfb-run -a godot --import
-
-      - name: Verify imported football mesh
-        run: |
-          set -eu
-          cd game
-          test -s .import/Football.blend.obj-e161dc2ac3731bc92089df852e4207eb.mesh
-          echo "Football mesh imported successfully."
-
-      - name: Export HTML5
-        timeout-minutes: 4
-        run: |
-          set -eu
-          mkdir -p web
-          cd game
-          timeout 180s xvfb-run -a godot --export "HTML5" ../web/index.html
-          test -s ../web/index.html
-
-      - name: Upload browser test artifact
+      - name: Upload diagnostic log
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ball2box-html5-test
-          path: web/
-          if-no-files-found: error
+          name: godot-diagnostic
+          path: godot-diagnostic.log
+          if-no-files-found: warn
